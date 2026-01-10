@@ -1,10 +1,10 @@
-package com.sap.jamsession.services;
+package com.uni.jamsession.services;
 
-import com.sap.jamsession.exceptions.ResourceDuplicatedException;
-import com.sap.jamsession.exceptions.ResourceNotFoundException;
-import com.sap.jamsession.model.MusicGenre;
-import com.sap.jamsession.dtos.CreateMusicGenreDto;
-import com.sap.jamsession.repositories.MusicGenreRepository;
+import com.uni.jamsession.exceptions.ResourceDuplicatedException;
+import com.uni.jamsession.exceptions.ResourceNotFoundException;
+import com.uni.jamsession.model.MusicGenre;
+import com.uni.jamsession.dtos.CreateMusicGenreDto;
+import com.uni.jamsession.repositories.MusicGenreRepository;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,4 +1,4 @@
-package com.sap.jamsession.model;
+package com.uni.jamsession.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

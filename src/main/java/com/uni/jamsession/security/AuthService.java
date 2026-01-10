@@ -1,4 +1,4 @@
-package com.sap.jamsession.security;
+package com.uni.jamsession.security;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;

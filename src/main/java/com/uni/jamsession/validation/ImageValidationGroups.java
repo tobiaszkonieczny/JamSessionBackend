@@ -1,4 +1,4 @@
-package com.sap.jamsession.validation;
+package com.uni.jamsession.validation;
 
 public interface ImageValidationGroups {
   interface Upload {}

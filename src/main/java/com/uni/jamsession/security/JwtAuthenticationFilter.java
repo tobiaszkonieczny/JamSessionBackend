@@ -1,4 +1,4 @@
-package com.sap.jamsession.security;
+package com.uni.jamsession.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,9 +1,9 @@
-package com.sap.jamsession.controllers;
+package com.uni.jamsession.controllers;
 
-import com.sap.jamsession.model.MusicGenre;
-import com.sap.jamsession.dtos.CreateMusicGenreDto;
-import com.sap.jamsession.repositories.MusicGenreRepository;
-import com.sap.jamsession.services.MusicGenreService;
+import com.uni.jamsession.model.MusicGenre;
+import com.uni.jamsession.dtos.CreateMusicGenreDto;
+import com.uni.jamsession.repositories.MusicGenreRepository;
+import com.uni.jamsession.services.MusicGenreService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

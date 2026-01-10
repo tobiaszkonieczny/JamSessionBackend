@@ -1,6 +1,6 @@
-package com.sap.jamsession.security;
+package com.uni.jamsession.security;
 
-import com.sap.jamsession.repositories.UserRepository;
+import com.uni.jamsession.repositories.UserRepository;
 import java.util.List;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

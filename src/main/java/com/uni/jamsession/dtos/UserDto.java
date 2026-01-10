@@ -1,7 +1,7 @@
-package com.sap.jamsession.dtos;
+package com.uni.jamsession.dtos;
 
-import com.sap.jamsession.model.MusicGenre;
-import com.sap.jamsession.validation.UserValidationGroups;
+import com.uni.jamsession.model.MusicGenre;
+import com.uni.jamsession.validation.UserValidationGroups;
 import jakarta.validation.constraints.*;
 import java.util.Set;
 

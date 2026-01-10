@@ -1,17 +1,12 @@
-package com.sap.jamsession.controllers;
+package com.uni.jamsession.controllers;
 
-import com.sap.jamsession.dtos.InstrumentAndRatingDto;
-import com.sap.jamsession.facade.InstrumentAndRatingFacade;
-import com.sap.jamsession.model.InstrumentAndRating;
-import com.sap.jamsession.dtos.CreateInstrumentAndRatingDto;
-import com.sap.jamsession.repositories.InstrumentAndRatingRepository;
-import com.sap.jamsession.services.InstrumentAndRatingService;
-import java.util.List;
+import com.uni.jamsession.dtos.InstrumentAndRatingDto;
+import com.uni.jamsession.facade.InstrumentAndRatingFacade;
+import com.uni.jamsession.dtos.CreateInstrumentAndRatingDto;
+
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

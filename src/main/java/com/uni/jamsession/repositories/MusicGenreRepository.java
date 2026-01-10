@@ -1,6 +1,6 @@
-package com.sap.jamsession.repositories;
+package com.uni.jamsession.repositories;
 
-import com.sap.jamsession.model.MusicGenre;
+import com.uni.jamsession.model.MusicGenre;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

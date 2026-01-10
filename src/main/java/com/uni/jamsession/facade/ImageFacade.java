@@ -1,9 +1,9 @@
-package com.sap.jamsession.facade;
+package com.uni.jamsession.facade;
 
-import com.sap.jamsession.dtos.ImageDto;
-import com.sap.jamsession.model.ImageData;
-import com.sap.jamsession.services.ImageService;
-import com.sap.jamsession.services.UserService;
+import com.uni.jamsession.dtos.ImageDto;
+import com.uni.jamsession.model.ImageData;
+import com.uni.jamsession.services.ImageService;
+import com.uni.jamsession.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

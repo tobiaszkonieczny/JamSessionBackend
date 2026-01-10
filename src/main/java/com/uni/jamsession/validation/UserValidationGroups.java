@@ -1,4 +1,4 @@
-package com.sap.jamsession.validation;
+package com.uni.jamsession.validation;
 
 public class UserValidationGroups {
   public interface OnLogin {}

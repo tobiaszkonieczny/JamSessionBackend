@@ -1,8 +1,8 @@
-package com.sap.jamsession.mappers;
+package com.uni.jamsession.mappers;
 
-import com.sap.jamsession.exceptions.ResourceNotFoundException;
-import com.sap.jamsession.model.Instrument;
-import com.sap.jamsession.repositories.InstrumentRepository;
+import com.uni.jamsession.exceptions.ResourceNotFoundException;
+import com.uni.jamsession.model.Instrument;
+import com.uni.jamsession.repositories.InstrumentRepository;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
 

@@ -1,14 +1,15 @@
-package com.sap.jamsession.services;
+package com.uni.jamsession.services;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.sap.jamsession.exceptions.ResourceDuplicatedException;
-import com.sap.jamsession.exceptions.ResourceNotFoundException;
-import com.sap.jamsession.mappers.UserMapper;
-import com.sap.jamsession.model.User;
-import com.sap.jamsession.dtos.UserDto;
-import com.sap.jamsession.repositories.UserRepository;
-import com.sap.jamsession.security.*;
+import com.uni.jamsession.exceptions.ResourceDuplicatedException;
+import com.uni.jamsession.exceptions.ResourceNotFoundException;
+import com.uni.jamsession.mappers.UserMapper;
+import com.uni.jamsession.model.User;
+import com.uni.jamsession.dtos.UserDto;
+import com.uni.jamsession.repositories.UserRepository;
+import com.uni.jamsession.security.*;
+import com.uni.jamsession.security.*;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;

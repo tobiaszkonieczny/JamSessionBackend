@@ -1,9 +1,9 @@
-package com.sap.jamsession.mappers;
+package com.uni.jamsession.mappers;
 
-import com.sap.jamsession.model.MusicGenre;
-import com.sap.jamsession.model.User;
-import com.sap.jamsession.dtos.UserDto;
-import com.sap.jamsession.repositories.MusicGenreRepository;
+import com.uni.jamsession.model.MusicGenre;
+import com.uni.jamsession.model.User;
+import com.uni.jamsession.dtos.UserDto;
+import com.uni.jamsession.repositories.MusicGenreRepository;
 import java.util.Set;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;

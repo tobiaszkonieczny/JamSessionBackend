@@ -1,4 +1,4 @@
-package com.sap.jamsession.dtos;
+package com.uni.jamsession.dtos;
 
 import org.springframework.web.multipart.MultipartFile;
 

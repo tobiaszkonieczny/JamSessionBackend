@@ -1,11 +1,11 @@
-package com.sap.jamsession.repositories;
+package com.uni.jamsession.repositories;
 
-import com.sap.jamsession.model.JamSession;
+import com.uni.jamsession.model.JamSession;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import com.sap.jamsession.model.User;
+import com.uni.jamsession.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

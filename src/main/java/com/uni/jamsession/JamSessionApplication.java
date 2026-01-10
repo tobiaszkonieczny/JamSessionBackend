@@ -1,4 +1,4 @@
-package com.sap.jamsession;
+package com.uni.jamsession;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

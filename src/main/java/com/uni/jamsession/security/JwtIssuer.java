@@ -1,4 +1,4 @@
-package com.sap.jamsession.security;
+package com.uni.jamsession.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

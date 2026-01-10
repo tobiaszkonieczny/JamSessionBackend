@@ -1,4 +1,4 @@
-package com.sap.jamsession.model;
+package com.uni.jamsession.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;

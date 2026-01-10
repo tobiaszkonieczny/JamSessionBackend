@@ -1,6 +1,5 @@
-package com.sap.jamsession;
+package com.uni.jamsession;
 
-import com.sap.jamsession.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

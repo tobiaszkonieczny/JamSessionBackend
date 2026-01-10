@@ -1,8 +1,8 @@
-package com.sap.jamsession.services;
+package com.uni.jamsession.services;
 
-import com.sap.jamsession.exceptions.ResourceDuplicatedException;
-import com.sap.jamsession.model.Instrument;
-import com.sap.jamsession.repositories.InstrumentRepository;
+import com.uni.jamsession.exceptions.ResourceDuplicatedException;
+import com.uni.jamsession.model.Instrument;
+import com.uni.jamsession.repositories.InstrumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

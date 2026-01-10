@@ -1,12 +1,12 @@
-package com.sap.jamsession.mappers;
+package com.uni.jamsession.mappers;
 
-import com.sap.jamsession.dtos.JamSessionDto;
-import com.sap.jamsession.dtos.UserDto;
-import com.sap.jamsession.model.Instrument;
-import com.sap.jamsession.model.InstrumentAndRating;
-import com.sap.jamsession.model.JamSession;
-import com.sap.jamsession.model.MusicGenre;
-import com.sap.jamsession.model.User;
+import com.uni.jamsession.dtos.JamSessionDto;
+import com.uni.jamsession.dtos.UserDto;
+import com.uni.jamsession.model.Instrument;
+import com.uni.jamsession.model.InstrumentAndRating;
+import com.uni.jamsession.model.JamSession;
+import com.uni.jamsession.model.MusicGenre;
+import com.uni.jamsession.model.User;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-12-28T15:11:15+0100",
+    date = "2026-01-10T23:34:08+0100",
     comments = "version: 1.6.3, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.11.1.jar, environment: Java 21.0.9 (SAP SE)"
 )
 @Component

@@ -1,4 +1,4 @@
-package com.sap.jamsession.validation;
+package com.uni.jamsession.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

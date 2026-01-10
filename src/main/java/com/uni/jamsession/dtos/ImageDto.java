@@ -1,6 +1,6 @@
-package com.sap.jamsession.dtos;
+package com.uni.jamsession.dtos;
 
-import com.sap.jamsession.validation.ImageValidationGroups;
+import com.uni.jamsession.validation.ImageValidationGroups;
 import jakarta.validation.constraints.NotNull;
 
 public record ImageDto(

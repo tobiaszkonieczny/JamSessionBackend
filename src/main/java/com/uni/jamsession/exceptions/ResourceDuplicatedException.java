@@ -1,4 +1,4 @@
-package com.sap.jamsession.exceptions;
+package com.uni.jamsession.exceptions;
 
 import org.springframework.http.HttpStatus;
 

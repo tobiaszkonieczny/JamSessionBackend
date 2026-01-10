@@ -1,11 +1,11 @@
-package com.sap.jamsession.services;
+package com.uni.jamsession.services;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.sap.jamsession.exceptions.ResourceNotFoundException;
-import com.sap.jamsession.model.JamSession;
-import com.sap.jamsession.repositories.JamSessionRepository;
+import com.uni.jamsession.exceptions.ResourceNotFoundException;
+import com.uni.jamsession.model.JamSession;
+import com.uni.jamsession.repositories.JamSessionRepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

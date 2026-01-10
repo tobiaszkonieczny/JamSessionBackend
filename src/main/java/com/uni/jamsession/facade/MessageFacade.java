@@ -1,20 +1,17 @@
-package com.sap.jamsession.facade;
+package com.uni.jamsession.facade;
 
-import com.sap.jamsession.dtos.MessageDto;
-import com.sap.jamsession.mappers.MessageMapper;
-import com.sap.jamsession.model.JamSession;
-import com.sap.jamsession.model.Message;
-import com.sap.jamsession.model.ReactionType;
-import com.sap.jamsession.model.User;
-import com.sap.jamsession.services.JamSessionService;
-import com.sap.jamsession.services.MessageService;
-import com.sap.jamsession.services.UserService;
+import com.uni.jamsession.dtos.MessageDto;
+import com.uni.jamsession.mappers.MessageMapper;
+import com.uni.jamsession.model.JamSession;
+import com.uni.jamsession.model.ReactionType;
+import com.uni.jamsession.model.User;
+import com.uni.jamsession.services.JamSessionService;
+import com.uni.jamsession.services.MessageService;
+import com.uni.jamsession.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor

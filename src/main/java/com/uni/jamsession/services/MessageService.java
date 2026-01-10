@@ -1,13 +1,14 @@
-package com.sap.jamsession.services;
+package com.uni.jamsession.services;
 
-import com.sap.jamsession.dtos.MessageCreateDto;
-import com.sap.jamsession.dtos.MessageDto;
-import com.sap.jamsession.exceptions.UnauthorizedException;
-import com.sap.jamsession.mappers.MessageMapper;
-import com.sap.jamsession.model.*;
-import com.sap.jamsession.repositories.MessageRepository;
-import com.sap.jamsession.repositories.ReactionRepository;
-import com.sap.jamsession.security.AuthService;
+import com.uni.jamsession.dtos.MessageCreateDto;
+import com.uni.jamsession.dtos.MessageDto;
+import com.uni.jamsession.exceptions.UnauthorizedException;
+import com.uni.jamsession.mappers.MessageMapper;
+import com.uni.jamsession.model.*;
+import com.uni.jamsession.model.*;
+import com.uni.jamsession.repositories.MessageRepository;
+import com.uni.jamsession.repositories.ReactionRepository;
+import com.uni.jamsession.security.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

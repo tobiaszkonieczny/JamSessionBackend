@@ -1,13 +1,9 @@
-package com.sap.jamsession.mappers;
+package com.uni.jamsession.mappers;
 
-import com.sap.jamsession.dtos.MessageDto;
-import com.sap.jamsession.dtos.UserDto;
-import com.sap.jamsession.model.Message;
-import com.sap.jamsession.model.Reaction;
-import com.sap.jamsession.model.ReactionType;
-import com.sap.jamsession.model.User;
-import com.sap.jamsession.services.UserService;
-import lombok.AllArgsConstructor;
+import com.uni.jamsession.dtos.MessageDto;
+import com.uni.jamsession.dtos.UserDto;
+import com.uni.jamsession.model.*;
+import com.uni.jamsession.services.UserService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -43,7 +39,7 @@ public abstract class MessageMapper {
 
 
     @Named("mapImageToUrl")
-    protected String mapImageToUrl(com.sap.jamsession.model.ImageData image) {
+    protected String mapImageToUrl(ImageData image) {
         if (image == null) return null;
         return "images/" + image.getId();
     }

@@ -1,7 +1,7 @@
-package com.sap.jamsession.config;
+package com.uni.jamsession.config;
 
-import com.sap.jamsession.model.User;
-import com.sap.jamsession.repositories.UserRepository;
+import com.uni.jamsession.model.User;
+import com.uni.jamsession.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;

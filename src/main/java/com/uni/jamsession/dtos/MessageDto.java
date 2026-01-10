@@ -1,6 +1,6 @@
-package com.sap.jamsession.dtos;
+package com.uni.jamsession.dtos;
 
-import com.sap.jamsession.model.ReactionType;
+import com.uni.jamsession.model.ReactionType;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,12 +1,17 @@
-package com.sap.jamsession.controllers;
+package com.uni.jamsession.controllers;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.sap.jamsession.exceptions.*;
+import com.uni.jamsession.exceptions.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.uni.jamsession.exceptions.ImageUploadException;
+import com.uni.jamsession.exceptions.ResourceDuplicatedException;
+import com.uni.jamsession.exceptions.ResourceNotFoundException;
+import com.uni.jamsession.exceptions.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;

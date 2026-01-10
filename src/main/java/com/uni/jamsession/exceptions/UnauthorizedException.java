@@ -1,4 +1,4 @@
-package com.sap.jamsession.exceptions;
+package com.uni.jamsession.exceptions;
 
 public class UnauthorizedException extends RuntimeException {
     public UnauthorizedException(String message) {

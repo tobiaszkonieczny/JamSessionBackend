@@ -1,8 +1,8 @@
-package com.sap.jamsession.repositories;
+package com.uni.jamsession.repositories;
 
-import com.sap.jamsession.model.Message;
-import com.sap.jamsession.model.Reaction;
-import com.sap.jamsession.model.User;
+import com.uni.jamsession.model.Message;
+import com.uni.jamsession.model.Reaction;
+import com.uni.jamsession.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

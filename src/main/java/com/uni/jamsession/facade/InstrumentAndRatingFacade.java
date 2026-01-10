@@ -1,16 +1,14 @@
-package com.sap.jamsession.facade;
+package com.uni.jamsession.facade;
 
-import com.sap.jamsession.dtos.CreateInstrumentAndRatingDto;
-import com.sap.jamsession.dtos.InstrumentAndRatingDto;
-import com.sap.jamsession.mappers.InstrumentAndRatingMapper;
-import com.sap.jamsession.model.Instrument;
-import com.sap.jamsession.model.InstrumentAndRating;
-import com.sap.jamsession.model.User;
-import com.sap.jamsession.repositories.InstrumentAndRatingRepository;
-import com.sap.jamsession.repositories.InstrumentRepository;
-import com.sap.jamsession.security.AuthService;
-import com.sap.jamsession.services.InstrumentAndRatingService;
-import com.sap.jamsession.services.UserService;
+import com.uni.jamsession.dtos.CreateInstrumentAndRatingDto;
+import com.uni.jamsession.dtos.InstrumentAndRatingDto;
+import com.uni.jamsession.mappers.InstrumentAndRatingMapper;
+import com.uni.jamsession.model.Instrument;
+import com.uni.jamsession.model.User;
+import com.uni.jamsession.repositories.InstrumentAndRatingRepository;
+import com.uni.jamsession.repositories.InstrumentRepository;
+import com.uni.jamsession.services.InstrumentAndRatingService;
+import com.uni.jamsession.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +30,7 @@ public class InstrumentAndRatingFacade {
         Instrument instrument = instrumentRepository.getInstrumentById(
                 instrumentAndRatingDto.instrumentId()
         );
-        return instrumentAndRatingMapper.instrumentAndRatingtoInstrumentAndRatingDto(
+        return instrumentAndRatingMapper.toDto(
                 instrumentAndRatingService.addOrUpdateInstrumentAndRating(user, instrument, instrumentAndRatingDto.rating())
         );
     }
@@ -49,7 +47,7 @@ public class InstrumentAndRatingFacade {
 
     public Set<InstrumentAndRatingDto> getByUserId(int userId) {
         return instrumentAndRatingRepository.findByUserId(userId).stream()
-                .map(instrumentAndRatingMapper::instrumentAndRatingtoInstrumentAndRatingDto)
+                .map(instrumentAndRatingMapper::toDto)
                 .collect(Collectors.toSet());
     }
 

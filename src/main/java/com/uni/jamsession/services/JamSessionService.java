@@ -1,24 +1,24 @@
-package com.sap.jamsession.services;
+package com.uni.jamsession.services;
 
-import com.sap.jamsession.exceptions.ResourceNotFoundException;
-import com.sap.jamsession.exceptions.UnauthorizedException;
-import com.sap.jamsession.mappers.EditJamSessionMapper;
-import com.sap.jamsession.mappers.JamSessionMapper;
-import com.sap.jamsession.model.Instrument;
-import com.sap.jamsession.model.InstrumentAndRating;
-import com.sap.jamsession.model.JamSession;
-import com.sap.jamsession.dtos.CreateJamSessionDto;
-import com.sap.jamsession.dtos.EditJamSessionDto;
-import com.sap.jamsession.dtos.JamSessionDto;
-import com.sap.jamsession.repositories.*;
+import com.uni.jamsession.exceptions.ResourceNotFoundException;
+import com.uni.jamsession.exceptions.UnauthorizedException;
+import com.uni.jamsession.mappers.EditJamSessionMapper;
+import com.uni.jamsession.mappers.JamSessionMapper;
+import com.uni.jamsession.model.Instrument;
+import com.uni.jamsession.model.InstrumentAndRating;
+import com.uni.jamsession.model.JamSession;
+import com.uni.jamsession.dtos.CreateJamSessionDto;
+import com.uni.jamsession.dtos.EditJamSessionDto;
+import com.uni.jamsession.dtos.JamSessionDto;
+import com.uni.jamsession.repositories.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.sap.jamsession.security.AuthService;
+import com.uni.jamsession.repositories.*;
+import com.uni.jamsession.security.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,6 @@
-package com.sap.jamsession.model;
+package com.uni.jamsession.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

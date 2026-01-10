@@ -1,7 +1,7 @@
-package com.sap.jamsession.mappers;
+package com.uni.jamsession.mappers;
 
-import com.sap.jamsession.model.JamSession;
-import com.sap.jamsession.dtos.JamSessionDto;
+import com.uni.jamsession.model.JamSession;
+import com.uni.jamsession.dtos.JamSessionDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

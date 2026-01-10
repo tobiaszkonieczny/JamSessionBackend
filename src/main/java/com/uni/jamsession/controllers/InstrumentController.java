@@ -1,9 +1,9 @@
-package com.sap.jamsession.controllers;
+package com.uni.jamsession.controllers;
 
-import com.sap.jamsession.model.Instrument;
-import com.sap.jamsession.dtos.CreateInstrumentDto;
-import com.sap.jamsession.repositories.InstrumentRepository;
-import com.sap.jamsession.services.InstrumentService;
+import com.uni.jamsession.model.Instrument;
+import com.uni.jamsession.dtos.CreateInstrumentDto;
+import com.uni.jamsession.repositories.InstrumentRepository;
+import com.uni.jamsession.services.InstrumentService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

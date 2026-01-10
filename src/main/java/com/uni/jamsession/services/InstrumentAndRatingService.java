@@ -1,12 +1,10 @@
-package com.sap.jamsession.services;
+package com.uni.jamsession.services;
 
-import com.sap.jamsession.mappers.InstrumentAndRatingMapper;
-import com.sap.jamsession.model.Instrument;
-import com.sap.jamsession.model.InstrumentAndRating;
-import com.sap.jamsession.model.User;
-import com.sap.jamsession.dtos.CreateInstrumentAndRatingDto;
-import com.sap.jamsession.repositories.InstrumentAndRatingRepository;
-import com.sap.jamsession.security.AuthService;
+import com.uni.jamsession.model.Instrument;
+import com.uni.jamsession.model.InstrumentAndRating;
+import com.uni.jamsession.model.User;
+import com.uni.jamsession.repositories.InstrumentAndRatingRepository;
+import com.uni.jamsession.security.AuthService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

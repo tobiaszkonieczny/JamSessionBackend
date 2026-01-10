@@ -1,9 +1,9 @@
-package com.sap.jamsession.dtos;
+package com.uni.jamsession.dtos;
 
-import com.sap.jamsession.model.Instrument;
-import com.sap.jamsession.model.InstrumentAndRating;
-import com.sap.jamsession.model.Location;
-import com.sap.jamsession.model.MusicGenre;
+import com.uni.jamsession.model.Instrument;
+import com.uni.jamsession.model.InstrumentAndRating;
+import com.uni.jamsession.model.Location;
+import com.uni.jamsession.model.MusicGenre;
 
 import java.time.LocalDateTime;
 import java.util.List;

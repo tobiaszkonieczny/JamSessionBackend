@@ -1,8 +1,8 @@
 
-package com.sap.jamsession.dtos;
+package com.uni.jamsession.dtos;
 
-import com.sap.jamsession.model.Instrument;
-import com.sap.jamsession.model.Location;
+import com.uni.jamsession.model.Instrument;
+import com.uni.jamsession.model.Location;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

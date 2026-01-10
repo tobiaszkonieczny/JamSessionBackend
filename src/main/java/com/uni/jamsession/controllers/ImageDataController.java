@@ -1,8 +1,8 @@
-package com.sap.jamsession.controllers;
+package com.uni.jamsession.controllers;
 
-import com.sap.jamsession.dtos.ImageDto;
-import com.sap.jamsession.facade.ImageFacade;
-import com.sap.jamsession.validation.FileValid;
+import com.uni.jamsession.dtos.ImageDto;
+import com.uni.jamsession.facade.ImageFacade;
+import com.uni.jamsession.validation.FileValid;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;

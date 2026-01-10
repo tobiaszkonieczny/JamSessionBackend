@@ -1,18 +1,9 @@
-package com.sap.jamsession.mappers;
+package com.uni.jamsession.mappers;
 
-import com.sap.jamsession.model.Instrument;
-import com.sap.jamsession.model.InstrumentAndRating;
-import com.sap.jamsession.model.JamSession;
-import com.sap.jamsession.dtos.EditJamSessionDto;
-import com.sap.jamsession.repositories.InstrumentAndRatingRepository;
-import com.sap.jamsession.repositories.InstrumentRepository;
-import com.sap.jamsession.services.MusicGenreService;
-import com.sap.jamsession.services.UserService;
+import com.uni.jamsession.model.JamSession;
+import com.uni.jamsession.dtos.EditJamSessionDto;
 
-import java.util.List;
-import java.util.Set;
 import org.mapstruct.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
 public interface EditJamSessionMapper {

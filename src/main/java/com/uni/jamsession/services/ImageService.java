@@ -1,9 +1,9 @@
-package com.sap.jamsession.services;
+package com.uni.jamsession.services;
 
-import com.sap.jamsession.exceptions.ImageUploadException;
-import com.sap.jamsession.exceptions.ResourceNotFoundException;
-import com.sap.jamsession.model.ImageData;
-import com.sap.jamsession.repositories.ImageDataRepository;
+import com.uni.jamsession.exceptions.ImageUploadException;
+import com.uni.jamsession.exceptions.ResourceNotFoundException;
+import com.uni.jamsession.model.ImageData;
+import com.uni.jamsession.repositories.ImageDataRepository;
 import java.io.IOException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
