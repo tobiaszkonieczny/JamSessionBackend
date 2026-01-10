@@ -62,13 +62,10 @@ public class JamSessionService {
     public JamSession editJamSession(EditJamSessionDto dto, int id) {
         var jamSession = getById(id);
 
-        // Zabezpieczenie: tylko właściciel lub admin może edytować sesję
         ensureOwner(jamSession);
 
-        // 1. Mapowanie prostych pól (data, lokalizacja)
         editJamSessionMapper.updateJamSessionFromDto(dto, jamSession);
 
-        // 2. Logika dla instrumentów wymaganych (Required)
         if (dto.requiredInstrumentsIds() != null) {
             List<Instrument> newRequired = new ArrayList<>();
             for (Integer instId : dto.requiredInstrumentsIds()) {
@@ -77,7 +74,6 @@ public class JamSessionService {
             jamSession.setRequiredInstruments(newRequired);
         }
 
-        // 3. Logika dla instrumentów potwierdzonych (Confirmed) - np. dodawanie listy uczestników przez admina
         if (dto.confirmedInstrumentsIds() != null) {
             var userId = userService.getUserPrinciples().getUserId();
             List<InstrumentAndRating> newConfirmed = instrumentAndRatingRepository
@@ -88,7 +84,6 @@ public class JamSessionService {
             jamSession.getConfirmedInstruments().addAll(newConfirmed);
         }
 
-        // 4. Logika dla gatunku
         if (dto.musicGenreId() != null) {
             var genre = musicGenreRepository.findById(dto.musicGenreId())
                     .orElseThrow(() -> new ResourceNotFoundException("Genre", dto.musicGenreId()));

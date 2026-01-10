@@ -1,5 +1,6 @@
 package com.sap.jamsession.mappers;
 
+import com.sap.jamsession.dtos.InstrumentAndRatingDto;
 import com.sap.jamsession.model.InstrumentAndRating;
 import com.sap.jamsession.dtos.CreateInstrumentAndRatingDto;
 import org.mapstruct.Mapper;
@@ -9,6 +10,8 @@ import org.mapstruct.Mapping;
 public interface InstrumentAndRatingMapper {
 
   @Mapping(source = "instrumentId", target = "instrument", qualifiedByName = "getInstrument")
-  public InstrumentAndRating instrumentAndRatingDtotoInstrumentAndRating(
+  public InstrumentAndRating createInstrumentAndRatingDtotoInstrumentAndRating(
       CreateInstrumentAndRatingDto createInstrumentAndRatingDto);
+    @Mapping(source = "instrument", target = "instrumentId", qualifiedByName = "instrumentToDto")
+  public InstrumentAndRatingDto instrumentAndRatingtoInstrumentAndRatingDto(InstrumentAndRating instrumentAndRating);
 }

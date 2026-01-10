@@ -28,14 +28,13 @@ public class JamSessionFacade {
     private final MessageMapper messageMapper;
     private final JamSessionMapper jamSessionMapper;
 
-    // Dodaliśmy parametr parentId
     public MessageDto addCommentToJamSession(int jamSessionId, MessageCreateDto dto, MultipartFile image, Integer parentId) {
         JamSession session = jamSessionService.getById(jamSessionId);
         User user = userService.getCurrentUser();
 
         ImageData imageData = null;
         if (image != null) {
-            imageData = imageService.uploadImage(image);
+            imageData = imageService.saveImage(image);
         }
 
 
