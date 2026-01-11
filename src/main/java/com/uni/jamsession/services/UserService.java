@@ -2,13 +2,15 @@ package com.uni.jamsession.services;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.uni.jamsession.dtos.user.UserEditDto;
+import com.uni.jamsession.dtos.user.UserLoginDto;
 import com.uni.jamsession.exceptions.ResourceDuplicatedException;
 import com.uni.jamsession.exceptions.ResourceNotFoundException;
+import com.uni.jamsession.exceptions.UnauthorizedException;
 import com.uni.jamsession.mappers.UserMapper;
 import com.uni.jamsession.model.User;
-import com.uni.jamsession.dtos.UserDto;
+import com.uni.jamsession.dtos.user.UserDto;
 import com.uni.jamsession.repositories.UserRepository;
-import com.uni.jamsession.security.*;
 import com.uni.jamsession.security.*;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -21,93 +23,67 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 @Service
 @AllArgsConstructor
+@Transactional(readOnly = true)
 public class UserService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
-  private final UserMapper userMapper;
-  private final HttpServletRequest request;
-  private final JwtDecoder jwtDecoder;
-  private final JwtToPrincipalConverter jwtToPrincipalConverter;
   private final JwtIssuer jwtIssuer;
   private final AuthenticationManager authenticationManager;
   private final AuthService authService;
 
 
-  public UserDto update(int id, UserDto editUserDto) throws IllegalAccessException {
-
+  @Transactional
+  public User update(int id, User user) throws IllegalAccessException {
     userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", id));
-
-    var userPrinciple = getUserPrinciples();
-    if (userPrinciple.getUserId() != id)
+    if (!isCurrentUser(id)){
       throw new IllegalAccessException("User cannot update other users");
-    var user = getUser(userPrinciple.getUserId());
-    userMapper.onEditToUser(editUserDto, user);
-    userRepository.save(user);
-
-    return userMapper.userToUserDto(user);
+    }
+    return userRepository.save(user);
   }
 
-  public String loginUser(UserDto loginRequest) {
+  public String loginUser(UserLoginDto loginRequest) {
     var authentication =
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password()));
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
-    var principal = (UserPrincipal) authentication.getPrincipal();
+    UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
 
-    var roles = principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+    List<String> roles = principal.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
     return jwtIssuer.issuer(
         principal.getUserId(), principal.getUsername(), principal.getEmail(), roles);
   }
 
-  public User registerUser(UserDto registerUserDto) {
-    if (userRepository.existsByEmail(registerUserDto.email())) {
-      throw new ResourceDuplicatedException("User", "email", registerUserDto.email());
+  @Transactional
+  public User registerUser(User user, String rawPassword) {
+    if (userRepository.existsByEmail(user.getEmail())) {
+      throw new ResourceDuplicatedException("User", "email", user.getEmail());
     }
-    User user = new User();
-    user.setName(registerUserDto.name());
-    user.setEmail(registerUserDto.email());
-    var password = passwordEncoder.encode(registerUserDto.password());
-    user.setPassword(password);
-    user.setRole("ROLE_USER");
-    userRepository.save(user);
-    return user;
+
+    user.setPassword(passwordEncoder.encode(rawPassword));
+    return userRepository.save(user);
   }
 
-  public UserDto getUserDtoById(int id) {
-    var user =
-        userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", id));
-    return userMapper.userToUserDto(user);
+  @Transactional
+  public User saveUser(User user) {
+    if (!isCurrentUser(user.getId())) {
+      throw new UnauthorizedException("You can only update your own profile");
+    }
+    return userRepository.save(user);
   }
 
   public User getUserById(int id) {
     return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", id));
   }
 
-  public List<UserDto> getAllUsers() {
-    return userRepository.findAll().stream()
-        .map(userMapper::userToUserDto)
-        .collect(Collectors.toList());
-  }
-
-  public User getUser(int id) {
-    return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", id));
-  }
-
-  public UserPrincipal getUserPrinciples() {
-    var tokenHeader = request.getHeader("Authorization");
-
-    if (!StringUtils.hasText(tokenHeader) || !tokenHeader.startsWith("Bearer ")) {
-      throw new JWTVerificationException("");
-    }
-    var token = tokenHeader.substring(7);
-    DecodedJWT decodedJwt = jwtDecoder.decode(token);
-    return jwtToPrincipalConverter.convert(decodedJwt);
+  public List<User> getAllUsers() {
+    return userRepository.findAll();
   }
 
   public User getCurrentUser(){
@@ -116,10 +92,6 @@ public class UserService {
      ).orElseThrow(
              () -> new ResourceNotFoundException("User", authService.getUserPrincipal().getId())
      );
-  }
-
-  public void saveUser(User user) {
-    userRepository.save(user);
   }
 
   public boolean isCurrentUser(int userId) {

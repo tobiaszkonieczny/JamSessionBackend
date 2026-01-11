@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,10 +14,13 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "users")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 public class User {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @EqualsAndHashCode.Include
   private Integer id;
 
   private String name;
@@ -28,12 +32,13 @@ public class User {
 
   @ManyToMany
   @JoinTable(
-      name = "user_ganres",
+      name = "user_genres",
       joinColumns = {@JoinColumn(name = "user_id")},
       inverseJoinColumns = @JoinColumn(name = "genre_id"))
   private Set<MusicGenre> favoriteGenres = new HashSet<>();
 
-  @OneToMany private Set<JamSession> ownedJamSessions = new HashSet<>();
+  @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+  private Set<JamSession> ownedJamSessions = new HashSet<>();
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonIgnore
@@ -41,21 +46,6 @@ public class User {
 
   public User() {}
 
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this) return true;
-    if (obj == null || obj.getClass() != this.getClass()) return false;
-    var that = (User) obj;
-    return Objects.equals(this.id, that.id)
-        && Objects.equals(this.name, that.name)
-        && Objects.equals(this.email, that.email)
-        && Objects.equals(this.password, that.password);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name, email, password);
-  }
 
   @Override
   public String toString() {
@@ -68,9 +58,6 @@ public class User {
         + ", "
         + "email="
         + email
-        + ", "
-        + "password="
-        + password
         + ']';
   }
 }

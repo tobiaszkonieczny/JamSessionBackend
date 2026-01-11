@@ -1,5 +1,6 @@
 package com.uni.jamsession.dtos;
 
+import com.uni.jamsession.dtos.user.UserDto;
 import com.uni.jamsession.model.ReactionType;
 
 import java.time.LocalDateTime;

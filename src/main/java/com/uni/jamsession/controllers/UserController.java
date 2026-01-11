@@ -1,55 +1,43 @@
 package com.uni.jamsession.controllers;
 
-import com.uni.jamsession.dtos.UserDto;
-import com.uni.jamsession.repositories.UserRepository;
-import com.uni.jamsession.services.UserService;
-import com.uni.jamsession.validation.UserValidationGroups;
+import com.uni.jamsession.dtos.user.UserDto;
+import com.uni.jamsession.dtos.user.UserEditDto;
+import com.uni.jamsession.dtos.user.UserRegisterDto;
+import com.uni.jamsession.facade.UserFacade;
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.List;
+
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
+@AllArgsConstructor
 public class UserController {
 
-  private final UserRepository userRepository;
-  private final UserService userService;
+  private final UserFacade userFacade;
 
-  public UserController(UserRepository userRepository, UserService userService) {
-    this.userRepository = userRepository;
-    this.userService = userService;
-  }
 
   @GetMapping("/all")
-  public ResponseEntity<?> getAllUsers() {
-    return ResponseEntity.ok(userService.getAllUsers());
+  public ResponseEntity<List<UserDto>> getAllUsers() {
+    return ResponseEntity.ok(userFacade.getAllUsers());
   }
 
   @PostMapping("/register")
-  @Validated(UserValidationGroups.OnRegister.class)
-  public ResponseEntity<?> addUser(@Valid @RequestBody UserDto user) {
-    var resp = userService.registerUser(user);
-    return ResponseEntity.created(URI.create("/users/" + resp.getId())).build();
+  public ResponseEntity<?> addUser(@Valid @RequestBody UserRegisterDto user) {
+    UserDto userDto = userFacade.registerUser(user);
+    return ResponseEntity.created(URI.create("/users/" + userDto.id())).build();
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<?> getUser(@PathVariable int id) {
-    return ResponseEntity.ok(userService.getUserDtoById(id));
+  public ResponseEntity<UserDto> getUser(@PathVariable int id) {
+    return ResponseEntity.ok(userFacade.getUserById(id));
   }
 
   @PatchMapping("/update/{id}")
-  public ResponseEntity<?> updateUser(@PathVariable int id, @RequestBody UserDto user)
-      throws IllegalAccessException {
-    return ResponseEntity.ok(userService.update(id, user));
-  }
-
-  @DeleteMapping("/delete/{id}")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public ResponseEntity<?> deleteUser(@PathVariable int id) {
-    userRepository.deleteById(id);
-    return ResponseEntity.noContent().build();
+  public ResponseEntity<?> editUser(@PathVariable int id, @RequestBody UserEditDto user) throws IllegalAccessException {
+    return ResponseEntity.ok(userFacade.editUser(id, user));
   }
 }

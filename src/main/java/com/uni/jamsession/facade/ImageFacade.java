@@ -2,6 +2,8 @@ package com.uni.jamsession.facade;
 
 import com.uni.jamsession.dtos.ImageDto;
 import com.uni.jamsession.model.ImageData;
+import com.uni.jamsession.model.User;
+import com.uni.jamsession.security.AuthService;
 import com.uni.jamsession.services.ImageService;
 import com.uni.jamsession.services.UserService;
 import jakarta.transaction.Transactional;
@@ -14,11 +16,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageFacade {
   private final ImageService imageService;
   private final UserService userService;
+  private final AuthService authService;
 
   @Transactional
   public ImageDto uploadProfilePicture(MultipartFile file) {
     ImageData savedImage = imageService.saveImage(file);
-    var user = userService.getUser(userService.getUserPrinciples().getUserId());
+    User user = userService.getUserById(
+        authService.getUserPrincipal().getId()
+    );
     user.setProfilePictureId(savedImage.getId());
     userService.saveUser(user);
 

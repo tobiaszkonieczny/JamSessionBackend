@@ -70,7 +70,7 @@ public class JamSessionService {
         }
 
         if (dto.confirmedInstrumentsIds() != null) {
-            var userId = userService.getUserPrinciples().getUserId();
+            int userId = authService.getUserPrincipal().getId();
             List<InstrumentAndRating> newConfirmed = instrumentAndRatingRepository
                     .findByUserIdAndInstrumentId(dto.confirmedInstrumentsIds(), userId);
 
@@ -136,8 +136,8 @@ public class JamSessionService {
     }
 
     public boolean isOwner(int id) {
-        var jam = getById(id);
-        var currentUserId = userService.getUserPrinciples().getUserId();
+        JamSession jam = getById(id);
+        int currentUserId = authService.getUserPrincipal().getUserId();
         return jam.getOwner().getId().equals(currentUserId);
     }
 
@@ -207,9 +207,6 @@ public class JamSessionService {
         jamSessionRepository.save(jamSession);
     }
 
-    // -------------------------------
-    // HELPERS
-    // -------------------------------
     private JamSession getJamSessionOwnedByCurrentUser(int id) {
         JamSession jam = getById(id);
         ensureOwner(jam);

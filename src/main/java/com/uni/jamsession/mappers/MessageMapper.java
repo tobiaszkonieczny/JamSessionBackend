@@ -1,7 +1,7 @@
 package com.uni.jamsession.mappers;
 
 import com.uni.jamsession.dtos.MessageDto;
-import com.uni.jamsession.dtos.UserDto;
+import com.uni.jamsession.dtos.user.UserDto;
 import com.uni.jamsession.model.*;
 import com.uni.jamsession.services.UserService;
 import org.mapstruct.Mapper;
@@ -46,7 +46,6 @@ public abstract class MessageMapper {
     @Named("mapUserIdToUserDto")
     protected UserDto mapUserIdToUserDto(User user) {
         if (user == null) return null;
-
-        return userMapper.userToUserDto(user);
+        return userMapper.toDto(user);
     }
 }
