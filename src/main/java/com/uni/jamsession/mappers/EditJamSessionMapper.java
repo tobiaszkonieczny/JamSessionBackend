@@ -1,7 +1,7 @@
 package com.uni.jamsession.mappers;
 
+import com.uni.jamsession.dtos.jamsession.EditJamSessionDto;
 import com.uni.jamsession.model.JamSession;
-import com.uni.jamsession.dtos.EditJamSessionDto;
 
 import org.mapstruct.*;
 
