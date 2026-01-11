@@ -1,7 +1,7 @@
 package com.uni.jamsession.dtos;
 
 public record MusicGenreDto(
-    Integer id,
+    int id,
     String name
 ){
 }
