@@ -29,10 +29,7 @@ out/
 ### VS Code ###
 .vscode/
 
-### Spring Boot ###
-application-local.properties
-application-dev.properties
-application-prod.properties
+
 
 ### System Files ###
 .DS_Store

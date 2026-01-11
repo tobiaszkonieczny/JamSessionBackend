@@ -22,6 +22,5 @@ public class MusicGenre {
   @ManyToMany(mappedBy = "favoriteGenres")
   @JsonIgnore
   private Set<User> users = new HashSet<>();
-
-  @OneToMany @JsonIgnore private Set<JamSession> jamSessions = new HashSet<>();
+  @OneToMany(mappedBy = "musicGenre") @JsonIgnore private Set<JamSession> jamSessions = new HashSet<>();
 }

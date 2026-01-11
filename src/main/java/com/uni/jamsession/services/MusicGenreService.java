@@ -1,37 +1,44 @@
 package com.uni.jamsession.services;
 
+import com.uni.jamsession.dtos.MusicGenreDto;
 import com.uni.jamsession.exceptions.ResourceDuplicatedException;
 import com.uni.jamsession.exceptions.ResourceNotFoundException;
 import com.uni.jamsession.model.MusicGenre;
 import com.uni.jamsession.dtos.CreateMusicGenreDto;
 import com.uni.jamsession.repositories.MusicGenreRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
+@AllArgsConstructor
+@Transactional(readOnly = true)
 public class MusicGenreService {
   private final MusicGenreRepository musicGenreRepository;
 
-  public MusicGenreService(MusicGenreRepository musicGenreRepository) {
-    this.musicGenreRepository = musicGenreRepository;
+  public List<MusicGenre> getAllMusicGenres() {
+    return musicGenreRepository.findAll();
   }
 
-  public CreateMusicGenreDto createMusicGenre(CreateMusicGenreDto createMusicGenreDto) {
-
+  @Transactional
+  public MusicGenre createMusicGenre(MusicGenre musicGenre) {
     musicGenreRepository
-        .findByName(createMusicGenreDto.name())
+        .findByName(musicGenre.getName())
         .ifPresent(
             (genre) -> {
               throw new ResourceDuplicatedException("Music genre", "name", genre.getName());
             });
-    var newGenre = new MusicGenre();
-    newGenre.setName(createMusicGenreDto.name());
-    musicGenreRepository.save(newGenre);
-    return new CreateMusicGenreDto(newGenre.getId(), newGenre.getName());
+      return musicGenreRepository.save(musicGenre);
   }
 
-  public MusicGenre getMusicGenreById(int id) {
-    return musicGenreRepository
-        .findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("MusicGenre", id));
+  @Transactional
+  public void deleteById(int id) {
+    if (!musicGenreRepository.existsById(id)) {
+      throw new ResourceNotFoundException("Music genre", id);
+    }
+    musicGenreRepository.deleteById(id);
   }
+
 }
