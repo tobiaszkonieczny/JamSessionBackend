@@ -1,7 +1,10 @@
 package com.uni.jamsession.mappers;
 
-import com.uni.jamsession.dtos.JamSessionDto;
+import com.uni.jamsession.dtos.MusicGenreDto;
 import com.uni.jamsession.dtos.UserDto;
+import com.uni.jamsession.dtos.instrument.InstrumentDto;
+import com.uni.jamsession.dtos.instrumentandrating.InstrumentAndRatingDto;
+import com.uni.jamsession.dtos.jamsession.JamSessionDto;
 import com.uni.jamsession.model.Instrument;
 import com.uni.jamsession.model.InstrumentAndRating;
 import com.uni.jamsession.model.JamSession;
@@ -17,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-01-11T01:01:48+0100",
+    date = "2026-01-11T02:34:49+0100",
     comments = "version: 1.6.3, compiler: IncrementalProcessingEnvironment from gradle-language-java-8.11.1.jar, environment: Java 21.0.9 (SAP SE)"
 )
 @Component
@@ -131,6 +134,73 @@ public class UserMapperImpl extends UserMapper {
         return set1;
     }
 
+    protected InstrumentAndRating instrumentAndRatingDtoToInstrumentAndRating(InstrumentAndRatingDto instrumentAndRatingDto) {
+        if ( instrumentAndRatingDto == null ) {
+            return null;
+        }
+
+        InstrumentAndRating instrumentAndRating = new InstrumentAndRating();
+
+        instrumentAndRating.setId( instrumentAndRatingDto.id() );
+        instrumentAndRating.setRating( instrumentAndRatingDto.rating() );
+
+        return instrumentAndRating;
+    }
+
+    protected List<InstrumentAndRating> instrumentAndRatingDtoListToInstrumentAndRatingList(List<InstrumentAndRatingDto> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<InstrumentAndRating> list1 = new ArrayList<InstrumentAndRating>( list.size() );
+        for ( InstrumentAndRatingDto instrumentAndRatingDto : list ) {
+            list1.add( instrumentAndRatingDtoToInstrumentAndRating( instrumentAndRatingDto ) );
+        }
+
+        return list1;
+    }
+
+    protected Instrument instrumentDtoToInstrument(InstrumentDto instrumentDto) {
+        if ( instrumentDto == null ) {
+            return null;
+        }
+
+        Instrument instrument = new Instrument();
+
+        instrument.setId( instrumentDto.id() );
+        instrument.setName( instrumentDto.name() );
+
+        return instrument;
+    }
+
+    protected List<Instrument> instrumentDtoListToInstrumentList(List<InstrumentDto> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<Instrument> list1 = new ArrayList<Instrument>( list.size() );
+        for ( InstrumentDto instrumentDto : list ) {
+            list1.add( instrumentDtoToInstrument( instrumentDto ) );
+        }
+
+        return list1;
+    }
+
+    protected MusicGenre musicGenreDtoToMusicGenre(MusicGenreDto musicGenreDto) {
+        if ( musicGenreDto == null ) {
+            return null;
+        }
+
+        MusicGenre musicGenre = new MusicGenre();
+
+        if ( musicGenreDto.id() != null ) {
+            musicGenre.setId( musicGenreDto.id() );
+        }
+        musicGenre.setName( musicGenreDto.name() );
+
+        return musicGenre;
+    }
+
     protected JamSession jamSessionDtoToJamSession(JamSessionDto jamSessionDto) {
         if ( jamSessionDto == null ) {
             return null;
@@ -139,17 +209,11 @@ public class UserMapperImpl extends UserMapper {
         JamSession jamSession = new JamSession();
 
         jamSession.setId( jamSessionDto.id() );
-        List<InstrumentAndRating> list = jamSessionDto.confirmedInstruments();
-        if ( list != null ) {
-            jamSession.setConfirmedInstruments( new ArrayList<InstrumentAndRating>( list ) );
-        }
+        jamSession.setConfirmedInstruments( instrumentAndRatingDtoListToInstrumentAndRatingList( jamSessionDto.confirmedInstruments() ) );
         jamSession.setStartTime( jamSessionDto.startTime() );
         jamSession.setLocation( jamSessionDto.location() );
-        List<Instrument> list1 = jamSessionDto.requiredInstruments();
-        if ( list1 != null ) {
-            jamSession.setRequiredInstruments( new ArrayList<Instrument>( list1 ) );
-        }
-        jamSession.setMusicGenre( jamSessionDto.musicGenre() );
+        jamSession.setRequiredInstruments( instrumentDtoListToInstrumentList( jamSessionDto.requiredInstruments() ) );
+        jamSession.setMusicGenre( musicGenreDtoToMusicGenre( jamSessionDto.musicGenre() ) );
 
         return jamSession;
     }

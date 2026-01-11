@@ -1,5 +1,6 @@
 package com.uni.jamsession.dtos;
 
+import com.uni.jamsession.dtos.jamsession.JamSessionDto;
 import com.uni.jamsession.model.MusicGenre;
 import com.uni.jamsession.validation.UserValidationGroups;
 import jakarta.validation.constraints.*;

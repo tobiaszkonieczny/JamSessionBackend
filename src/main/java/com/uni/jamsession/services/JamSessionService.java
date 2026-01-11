@@ -2,23 +2,19 @@ package com.uni.jamsession.services;
 
 import com.uni.jamsession.exceptions.ResourceNotFoundException;
 import com.uni.jamsession.exceptions.UnauthorizedException;
-import com.uni.jamsession.mappers.EditJamSessionMapper;
 import com.uni.jamsession.mappers.JamSessionMapper;
-import com.uni.jamsession.model.Instrument;
-import com.uni.jamsession.model.InstrumentAndRating;
-import com.uni.jamsession.model.JamSession;
-import com.uni.jamsession.dtos.CreateJamSessionDto;
-import com.uni.jamsession.dtos.EditJamSessionDto;
-import com.uni.jamsession.dtos.JamSessionDto;
+import com.uni.jamsession.model.*;
+import com.uni.jamsession.dtos.jamsession.CreateJamSessionDto;
+import com.uni.jamsession.dtos.jamsession.EditJamSessionDto;
+import com.uni.jamsession.dtos.jamsession.JamSessionDto;
 import com.uni.jamsession.repositories.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import com.uni.jamsession.repositories.*;
 import com.uni.jamsession.security.AuthService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +25,6 @@ public class JamSessionService {
     private final UserRepository userRepository;
     private final JamSessionRepository jamSessionRepository;
     private final JamSessionMapper jamSessionMapper;
-    private final EditJamSessionMapper editJamSessionMapper;
     private final UserService userService;
     private final MusicGenreRepository musicGenreRepository;
     private final InstrumentAndRatingRepository instrumentAndRatingRepository;
@@ -37,17 +32,18 @@ public class JamSessionService {
     private final InstrumentRepository instrumentRepository;
 
 
-    public int createJamSession(CreateJamSessionDto dto) {
+    @Transactional
+    public JamSession createJamSession(CreateJamSessionDto dto) {
 
-        var userId = userService.getUserPrinciples().getUserId();
+        int userId = authService.getUserPrincipal().getId();
 
-        var owner = userRepository.findById(userId)
+        User owner = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", userId));
 
-        var genre = musicGenreRepository.findById(dto.getMusicGenreId())
+        MusicGenre genre = musicGenreRepository.findById(dto.getMusicGenreId())
                 .orElseThrow(() -> new ResourceNotFoundException("Music genre", dto.getMusicGenreId()));
 
-        var jamSession = new JamSession();
+        JamSession jamSession = new JamSession();
         jamSession.setOwner(owner);
         jamSession.setRequiredInstruments(dto.getRequiredInstruments());
         jamSession.setStartTime(dto.getStartTime());
@@ -55,16 +51,15 @@ public class JamSessionService {
         jamSession.setMusicGenre(genre);
 
         jamSessionRepository.save(jamSession);
-        return jamSession.getId();
+        return jamSession;
     }
 
 
+    @Transactional
     public JamSession editJamSession(EditJamSessionDto dto, int id) {
-        var jamSession = getById(id);
+        JamSession jamSession = getById(id);
 
         ensureOwner(jamSession);
-
-        editJamSessionMapper.updateJamSessionFromDto(dto, jamSession);
 
         if (dto.requiredInstrumentsIds() != null) {
             List<Instrument> newRequired = new ArrayList<>();
@@ -79,7 +74,6 @@ public class JamSessionService {
             List<InstrumentAndRating> newConfirmed = instrumentAndRatingRepository
                     .findByUserIdAndInstrumentId(dto.confirmedInstrumentsIds(), userId);
 
-            // Tutaj decydujesz czy nadpisujesz (set) czy dodajesz (addAll)
             jamSession.getConfirmedInstruments().clear();
             jamSession.getConfirmedInstruments().addAll(newConfirmed);
         }
@@ -93,14 +87,8 @@ public class JamSessionService {
         return jamSessionRepository.save(jamSession);
     }
 
-    public JamSessionDto getJamSessionById(int id) {
-        return jamSessionMapper.jamSessionToJamSessionDto(getById(id));
-    }
-
-    public List<JamSessionDto> getAllJamSessions() {
-        return jamSessionRepository.findAll().stream()
-                .map(jamSessionMapper::jamSessionToJamSessionDto)
-                .collect(Collectors.toList());
+    public List<JamSession> getAllJamSessions() {
+        return jamSessionRepository.findAll();
     }
 
     public Set<JamSession> getAllJamSessionsByUser(int userId) {
@@ -115,29 +103,36 @@ public class JamSessionService {
         return jamSessionRepository.findByConfirmedInstruments_User(user);
     }
 
+    @Transactional
     public void deleteInstrumentFromJamSession(int jamSessionId, int instrumentAndRatingId) {
-
-        var jamSession = getById(jamSessionId);
-        var currentUser = userService.getUserDtoById(userService.getUserPrinciples().getUserId());
+        JamSession jamSession = getById(jamSessionId);
+        int userId = authService.getUserPrincipal().getId();
 
         var instrument = jamSession.getConfirmedInstruments().stream()
                 .filter(j -> j.getId() == instrumentAndRatingId)
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("Instrument", instrumentAndRatingId));
 
-        if (!instrument.getUser().getId().equals(currentUser.id())) {
+        if (!instrument.getUser().getId().equals(userId)) {
             throw new UnauthorizedException(
-                    "User with id: " + currentUser.id() + " is not owner of this instrument and rating");
+                    "User with id: " + userId + " is not owner of this instrument and rating");
         }
-
         jamSession.getConfirmedInstruments().remove(instrument);
         jamSessionRepository.save(jamSession);
     }
 
 
+    @Transactional
     public void deleteJamSession(int id) {
-        var jamSession = getJamSessionOwnedByCurrentUser(id);
-        jamSessionRepository.delete(jamSession);
+        if(authService.isAdmin()) {
+            JamSession jamSession = getById(id);
+            jamSessionRepository.delete(jamSession);
+        }
+        else{
+            JamSession jamSession = getJamSessionOwnedByCurrentUser(id);
+            jamSessionRepository.delete(jamSession);
+        }
+
     }
 
     public boolean isOwner(int id) {
@@ -150,21 +145,22 @@ public class JamSessionService {
         return jamSessionRepository.save(jamSession);
     }
 
+    @Transactional
     public JamSession addUserToJamSession(int jamSessionId, int instrumentAndRatingId) {
-        var jamSession = getById(jamSessionId);
-        var currentUserId = userService.getUserPrinciples().getUserId();
+        JamSession jamSession = getById(jamSessionId);
+        int currentUserId = authService.getUserPrincipal().getId();
 
-        var iar = instrumentAndRatingRepository.findById(instrumentAndRatingId)
+        InstrumentAndRating iar = instrumentAndRatingRepository.findById(instrumentAndRatingId)
                 .orElseThrow(() -> new ResourceNotFoundException("InstrumentAndRating", instrumentAndRatingId));
 
         if (!iar.getUser().getId().equals(currentUserId)) {
-            throw new UnauthorizedException("Nie posiadasz uprawnień do tego instrumentu.");
+            throw new UnauthorizedException("This InstrumentAndRating does not belong to the current user.");
         }
 
         boolean alreadyIn = jamSession.getConfirmedInstruments().stream()
                 .anyMatch(ci -> ci.getUser().getId().equals(currentUserId));
         if (alreadyIn) {
-            throw new IllegalArgumentException("Już bierzesz udział w tej sesji.");
+            throw new IllegalArgumentException("User is already signed up for this jam session.");
         }
 
         long requiredCount = jamSession.getRequiredInstruments().stream()
@@ -176,29 +172,25 @@ public class JamSessionService {
                 .count();
 
         if (confirmedCount >= requiredCount) {
-            throw new IllegalArgumentException("Brak wolnych miejsc na instrument: " + iar.getInstrument().getName());
+            throw new IllegalArgumentException("No more available spaces for this jamSession" + iar.getInstrument().getName());
         }
 
         jamSession.getConfirmedInstruments().add(iar);
         return jamSessionRepository.save(jamSession);
     }
 
+    @Transactional
     public void removeUserFromJamSession(int jamSessionId, int userId) {
-        System.out.println("Attempting to remove user with ID: " + userId + " from jam session with ID: " + jamSessionId);
-        var jamSession = getById(jamSessionId);
-        var currentUserId = userService.getUserPrinciples().getUserId();
+        JamSession jamSession = getById(jamSessionId);
+        int currentUserId = authService.getUserPrincipal().getId();
 
         boolean isOwner = jamSession.getOwner().getId().equals(currentUserId);
         boolean isRemovingSelf = currentUserId == userId;
-        System.out.println("IsAdmin:" + authService.isAdmin());
         if ((!isOwner && !isRemovingSelf )&& !authService.isAdmin()) {
             throw new UnauthorizedException(
                     "User with id: " + currentUserId + " is not authorized to remove this user");
         }
 
-        for( InstrumentAndRating ir : jamSession.getConfirmedInstruments()) {
-            System.out.println("JamSession ID: " + jamSessionId + ", InstrumentAndRating ID: " + ir.getId() + ", User ID: " + ir.getUser().getId());
-        }
         boolean removed = jamSession.getConfirmedInstruments()
                 .removeIf(ir -> ir.getUser().getId().equals(userId));
 
@@ -209,17 +201,23 @@ public class JamSessionService {
         jamSessionRepository.save(jamSession);
     }
 
+    @Transactional
+    public void addMessageToJamSession(JamSession jamSession, Message message) {
+        jamSession.getMessages().add(message);
+        jamSessionRepository.save(jamSession);
+    }
+
     // -------------------------------
     // HELPERS
     // -------------------------------
     private JamSession getJamSessionOwnedByCurrentUser(int id) {
-        var jam = getById(id);
+        JamSession jam = getById(id);
         ensureOwner(jam);
         return jam;
     }
 
     private void ensureOwner(JamSession jam) {
-        var currentUserId = userService.getUserPrinciples().getUserId();
+        var currentUserId = authService.getUserPrincipal().getId();
         if (!jam.getOwner().getId().equals(currentUserId)) {
             throw new UnauthorizedException("User is not owner of this jam session");
         }

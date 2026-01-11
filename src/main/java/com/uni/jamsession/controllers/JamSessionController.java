@@ -1,12 +1,13 @@
 package com.uni.jamsession.controllers;
 
 import com.uni.jamsession.dtos.*;
-import com.uni.jamsession.dtos.*;
+import com.uni.jamsession.dtos.jamsession.CreateJamSessionDto;
+import com.uni.jamsession.dtos.jamsession.EditJamSessionDto;
+import com.uni.jamsession.dtos.jamsession.JamSessionDto;
 import com.uni.jamsession.exceptions.UnauthorizedException;
 import com.uni.jamsession.facade.JamSessionFacade;
 import com.uni.jamsession.facade.MessageFacade;
 import com.uni.jamsession.model.ReactionType;
-import com.uni.jamsession.services.JamSessionService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,32 +23,31 @@ import java.util.Set;
 @AllArgsConstructor
 public class JamSessionController {
 
-  private final JamSessionService jamSessionService;
   private final JamSessionFacade jamSessionFacade;
   private final MessageFacade messageFacade;
   @PostMapping("/create")
-  public ResponseEntity<?> createJamSession(@Valid @RequestBody CreateJamSessionDto jamSession) {
-    var jamSessionId = jamSessionService.createJamSession(jamSession);
-    return new ResponseEntity<>(jamSessionId, HttpStatus.CREATED);
+  public ResponseEntity<JamSessionDto> createJamSession(@Valid @RequestBody CreateJamSessionDto jamSession) {
+    JamSessionDto jamSessionDto = jamSessionFacade.createJamSession(jamSession);
+    return ResponseEntity.ok(jamSessionDto);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<?> findJamSessionById(@PathVariable("id") int id) {
-    return ResponseEntity.ok(jamSessionService.getJamSessionById(id));
+  public ResponseEntity<JamSessionDto> findJamSessionById(@PathVariable("id") int id) {
+    return ResponseEntity.ok(jamSessionFacade.getJamSessionById(id));
   }
 
   @PatchMapping("/edit/{id}")
   public ResponseEntity<?> editJamSession(
-      @PathVariable("id") int id, @Valid @RequestBody EditJamSessionDto jamSessionDto)
+      @PathVariable("id") int id, @Valid @RequestBody EditJamSessionDto editJamSessionDto)
       throws IllegalAccessException {
-    var newJamSession = jamSessionService.editJamSession(jamSessionDto, id);
+    JamSessionDto jamSessionDto = jamSessionFacade.editJamSession(editJamSessionDto, id);
 
-    return ResponseEntity.ok(newJamSession);
+    return ResponseEntity.ok(jamSessionDto);
   }
 
   @GetMapping("/all")
   public ResponseEntity<?> getAllJamSessions() {
-    return ResponseEntity.ok(jamSessionService.getAllJamSessions());
+    return ResponseEntity.ok(jamSessionFacade.getAllJamSessions());
   }
 
   @GetMapping("/own/{userId}")
@@ -61,11 +61,10 @@ public class JamSessionController {
   }
 
 
-
   @DeleteMapping("/delete/{id}")
-  @PreAuthorize("hasRole('ROLE_ADMIN') or @jamSessionService.isOwner(#id)")
+  @PreAuthorize("hasRole('ADMIN') or @jamSessionService.isOwner(#id)")
   public ResponseEntity<?> deleteJamSession(@PathVariable int id) throws IllegalAccessException {
-    jamSessionService.deleteJamSession(id);
+    jamSessionFacade.deleteJamSession(id);
     return ResponseEntity.noContent().build();
   }
 
@@ -73,7 +72,7 @@ public class JamSessionController {
   public ResponseEntity<?> removeInstrumentFromJamSession(
       @PathVariable int jamSessionId, @PathVariable int instrumentAndRatingId)
       throws IllegalAccessException {
-    jamSessionService.deleteInstrumentFromJamSession(jamSessionId, instrumentAndRatingId);
+    jamSessionFacade.deleteInstrumentFromJamSession(jamSessionId, instrumentAndRatingId);
     return ResponseEntity.noContent().build();
   }
 
@@ -118,7 +117,7 @@ public class JamSessionController {
     }
 
     @DeleteMapping("/leave/{jamSessionId}/{userId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or @jamSessionService.isOwner(#jamSessionId) or @userService.isCurrentUser(#userId)")
+    @PreAuthorize("hasRole('ADMIN') or @jamSessionService.isOwner(#jamSessionId) or @userService.isCurrentUser(#userId)")
     public ResponseEntity<?> removeUserFromJamSession(
             @PathVariable int jamSessionId,
             @PathVariable int userId) {

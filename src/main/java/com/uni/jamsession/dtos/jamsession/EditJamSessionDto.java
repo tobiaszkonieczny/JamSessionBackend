@@ -1,4 +1,4 @@
-package com.uni.jamsession.dtos;
+package com.uni.jamsession.dtos.jamsession;
 
 import com.uni.jamsession.model.Location;
 import jakarta.validation.Valid;

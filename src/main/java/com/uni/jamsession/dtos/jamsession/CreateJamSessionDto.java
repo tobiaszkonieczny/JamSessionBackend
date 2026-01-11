@@ -1,5 +1,5 @@
 
-package com.uni.jamsession.dtos;
+package com.uni.jamsession.dtos.jamsession;
 
 import com.uni.jamsession.model.Instrument;
 import com.uni.jamsession.model.Location;
@@ -24,7 +24,7 @@ public class CreateJamSessionDto {
 
   @NotNull
   @Size(min = 1)
-  private List<Instrument> requiredInstruments; // Zmiana na List
+  private List<Instrument> requiredInstruments;
 
   @NotNull(message = "musicGenreId cannot be null.")
   @Min(value = 1, message = "musicGenreId must be grater than 0")
