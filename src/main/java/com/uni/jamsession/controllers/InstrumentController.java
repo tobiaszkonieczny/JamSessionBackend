@@ -1,11 +1,15 @@
 package com.uni.jamsession.controllers;
 
+import com.uni.jamsession.dtos.instrument.InstrumentDto;
+import com.uni.jamsession.facade.InstrumentFacade;
 import com.uni.jamsession.model.Instrument;
-import com.uni.jamsession.dtos.CreateInstrumentDto;
+import com.uni.jamsession.dtos.instrument.CreateInstrumentDto;
 import com.uni.jamsession.repositories.InstrumentRepository;
 import com.uni.jamsession.services.InstrumentService;
 import jakarta.validation.Valid;
 import java.util.List;
+
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,38 +17,29 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/instruments")
 public class InstrumentController {
-  private final InstrumentService instrumentService;
-  private final InstrumentRepository instrumentRepository;
-
-  @Autowired
-  public InstrumentController(
-      InstrumentService instrumentService, InstrumentRepository instrumentRepository) {
-    this.instrumentService = instrumentService;
-    this.instrumentRepository = instrumentRepository;
-  }
+  private final InstrumentFacade instrumentFacade;
 
   @PostMapping("/new")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public ResponseEntity<CreateInstrumentDto> addInstrument(
+  @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+  public ResponseEntity<InstrumentDto> addInstrument(
       @Valid @RequestBody CreateInstrumentDto createInstrumentDto) {
-    var savedInstrument = instrumentService.createInstrument(createInstrumentDto.name());
-    var instrumentToReturn =
-        new CreateInstrumentDto(savedInstrument.getId(), savedInstrument.getName());
-    return new ResponseEntity<>(instrumentToReturn, HttpStatus.CREATED);
+    InstrumentDto instrumentDto = instrumentFacade.createInstrument(createInstrumentDto);
+    return ResponseEntity.ok(instrumentDto);
   }
 
   @GetMapping("/all")
-  public ResponseEntity<List<Instrument>> getAllInstruments() {
-    List<Instrument> instruments = instrumentRepository.findAll();
-    return new ResponseEntity<>(instruments, HttpStatus.OK);
+  public ResponseEntity<List<InstrumentDto>> getAllInstruments() {
+    List<InstrumentDto> instruments = instrumentFacade.getAllInstruments();
+    return ResponseEntity.ok(instruments);
   }
 
   @DeleteMapping("/delete")
   @PreAuthorize("hasAuthority('ROLE_ADMIN')")
   public ResponseEntity<String> deleteInstrument(@RequestParam int id) {
-    instrumentRepository.deleteById(id);
-    return new ResponseEntity<>("Deleted instrument", HttpStatus.OK);
+    instrumentFacade.deleteInstrument(id);
+    return ResponseEntity.ok("Deleted instrument with id: " + id);
   }
 }

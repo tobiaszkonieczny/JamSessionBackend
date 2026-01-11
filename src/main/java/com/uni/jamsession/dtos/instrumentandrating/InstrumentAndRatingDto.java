@@ -1,4 +1,4 @@
-package com.uni.jamsession.dtos;
+package com.uni.jamsession.dtos.instrumentandrating;
 
 public record InstrumentAndRatingDto(
         int id,

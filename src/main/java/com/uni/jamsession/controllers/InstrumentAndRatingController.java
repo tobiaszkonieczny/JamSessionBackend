@@ -1,8 +1,8 @@
 package com.uni.jamsession.controllers;
 
-import com.uni.jamsession.dtos.InstrumentAndRatingDto;
+import com.uni.jamsession.dtos.instrumentandrating.InstrumentAndRatingDto;
 import com.uni.jamsession.facade.InstrumentAndRatingFacade;
-import com.uni.jamsession.dtos.CreateInstrumentAndRatingDto;
+import com.uni.jamsession.dtos.instrumentandrating.CreateInstrumentAndRatingDto;
 
 import java.util.Set;
 

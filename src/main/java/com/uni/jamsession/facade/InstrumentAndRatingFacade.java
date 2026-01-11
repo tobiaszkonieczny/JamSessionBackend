@@ -1,7 +1,7 @@
 package com.uni.jamsession.facade;
 
-import com.uni.jamsession.dtos.CreateInstrumentAndRatingDto;
-import com.uni.jamsession.dtos.InstrumentAndRatingDto;
+import com.uni.jamsession.dtos.instrumentandrating.CreateInstrumentAndRatingDto;
+import com.uni.jamsession.dtos.instrumentandrating.InstrumentAndRatingDto;
 import com.uni.jamsession.mappers.InstrumentAndRatingMapper;
 import com.uni.jamsession.model.Instrument;
 import com.uni.jamsession.model.User;

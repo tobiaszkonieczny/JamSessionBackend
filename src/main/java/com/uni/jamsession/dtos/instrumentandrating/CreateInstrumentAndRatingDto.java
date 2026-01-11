@@ -1,4 +1,4 @@
-package com.uni.jamsession.dtos;
+package com.uni.jamsession.dtos.instrumentandrating;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
