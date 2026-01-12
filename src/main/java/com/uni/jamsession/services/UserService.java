@@ -8,12 +8,19 @@ import com.uni.jamsession.exceptions.ResourceDuplicatedException;
 import com.uni.jamsession.exceptions.ResourceNotFoundException;
 import com.uni.jamsession.exceptions.UnauthorizedException;
 import com.uni.jamsession.mappers.UserMapper;
+import com.uni.jamsession.model.InstrumentAndRating;
+import com.uni.jamsession.model.MusicGenre;
 import com.uni.jamsession.model.User;
 import com.uni.jamsession.dtos.user.UserDto;
+import com.uni.jamsession.repositories.JamSessionRepository;
+import com.uni.jamsession.repositories.MusicGenreRepository;
 import com.uni.jamsession.repositories.UserRepository;
 import com.uni.jamsession.security.*;
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
@@ -35,6 +42,8 @@ public class UserService {
   private final JwtIssuer jwtIssuer;
   private final AuthenticationManager authenticationManager;
   private final AuthService authService;
+  private final MusicGenreRepository musicGenreRepository;
+  private final JamSessionRepository jamsSessionRepository;
 
 
   @Transactional
@@ -76,6 +85,14 @@ public class UserService {
       throw new UnauthorizedException("You can only update your own profile");
     }
     return userRepository.save(user);
+  }
+
+  @Transactional
+  public void updateGenres(User user, Set<Integer> genreIds) {
+    if (genreIds == null) return;
+
+    List<MusicGenre> genres = musicGenreRepository.findAllById(genreIds);
+    user.setFavoriteGenres(new HashSet<>(genres));
   }
 
   public User getUserById(int id) {

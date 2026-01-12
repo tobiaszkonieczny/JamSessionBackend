@@ -3,6 +3,7 @@ package com.uni.jamsession.facade;
 import com.uni.jamsession.dtos.user.UserDto;
 import com.uni.jamsession.dtos.user.UserEditDto;
 import com.uni.jamsession.dtos.user.UserRegisterDto;
+import com.uni.jamsession.mappers.InstrumentAndRatingMapper;
 import com.uni.jamsession.mappers.UserMapper;
 import com.uni.jamsession.model.User;
 import com.uni.jamsession.services.UserService;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class UserFacade {
     private final UserService userService;
     private final UserMapper userMapper;
+    private final InstrumentAndRatingMapper instrumentAndRatingMapper;
 
     public List<UserDto> getAllUsers(){
         return userService.getAllUsers().stream().map(
@@ -36,6 +38,8 @@ public class UserFacade {
     public UserDto editUser(int id, UserEditDto userEditDto) {
         User user = userService.getUserById(id);
         userMapper.updateUserFromDto(userEditDto, user);
-        return userMapper.toDto(userService.saveUser(user));
+        userService.updateGenres(user, userEditDto.favouriteGenreIds());
+        User savedUser = userService.saveUser(user);
+        return userMapper.toDto(savedUser);
     }
 }

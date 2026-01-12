@@ -51,7 +51,7 @@ public class InstrumentAndRatingFacade {
                 .collect(Collectors.toSet());
     }
 
-    public void removeInstrumentAndRating(int instrumentId){
-        instrumentAndRatingService.removeInstrumentAndRating(instrumentId);
+    public void deleteInstrumentAndRating(int instrumentAndRatingId) throws IllegalAccessException {
+        instrumentAndRatingService.deleteInstrumentAndRating(instrumentAndRatingId);
     }
 }

@@ -84,6 +84,16 @@ public class JamSessionService {
             jamSession.setMusicGenre(genre);
         }
 
+        if (dto.startTime() != null) {
+            jamSession.setStartTime(dto.startTime());
+        }
+
+        if (dto.location() != null) {
+            jamSession.setLocation(dto.location());
+        }
+
+
+
         return jamSessionRepository.save(jamSession);
     }
 

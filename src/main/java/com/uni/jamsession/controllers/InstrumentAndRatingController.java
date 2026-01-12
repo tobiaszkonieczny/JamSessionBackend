@@ -26,6 +26,13 @@ public class InstrumentAndRatingController {
     return ResponseEntity.ok(instrumentAndRatingDtos);
   }
 
+  @DeleteMapping
+    public ResponseEntity<Void> deleteInstrumentAndRating(
+        @RequestParam("id") Integer id) throws IllegalAccessException {
+        instrumentAndRatingFacade.deleteInstrumentAndRating(id);
+        return ResponseEntity.noContent().build();
+    }
+
   @GetMapping
   public ResponseEntity<Set<InstrumentAndRatingDto>> getUserRatings(
       @RequestParam("userId") Integer userId) {

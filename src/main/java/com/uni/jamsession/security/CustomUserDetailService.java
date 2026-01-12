@@ -1,7 +1,10 @@
 package com.uni.jamsession.security;
 
+import com.uni.jamsession.model.User;
 import com.uni.jamsession.repositories.UserRepository;
 import java.util.List;
+
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,18 +13,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class CustomUserDetailService implements UserDetailsService {
 
   private final UserRepository userRepository;
 
-  public CustomUserDetailService(UserRepository userRepository) {
-    this.userRepository = userRepository;
-  }
-
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    System.out.println(username);
-    var user =
+    User user =
         userRepository
             .findByEmail(username)
             .orElseThrow(() -> new BadCredentialsException("Bad credentials"));

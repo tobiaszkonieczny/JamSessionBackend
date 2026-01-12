@@ -13,4 +13,10 @@ public interface InstrumentAndRatingMapper {
   @Mapping(source = "user.id", target = "userId")
   @Mapping(source = "user.name", target = "name")
   InstrumentAndRatingDto toDto(InstrumentAndRating entity);
+
+  @Mapping(source = "instrumentId", target = "instrument.id")
+  @Mapping(source = "instrumentName", target = "instrument.name")
+  @Mapping(source = "userId", target = "user.id")
+  @Mapping(source = "name", target = "user.name")
+    InstrumentAndRating toEntity(InstrumentAndRatingDto dto);
 }

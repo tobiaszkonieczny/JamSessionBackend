@@ -6,6 +6,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
+
+import lombok.AllArgsConstructor;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -13,30 +16,22 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Component
+@AllArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final JwtDecoder jwtDecoder;
   private final JwtToPrincipalConverter jwtToPrincipalConverter;
   private final HandlerExceptionResolver handlerExceptionResolver;
 
-  public JwtAuthenticationFilter(
-      JwtDecoder jwtDecoder,
-      JwtToPrincipalConverter jwtToPrincipalConverter,
-      HandlerExceptionResolver handlerExceptionResolver) {
-    this.jwtDecoder = jwtDecoder;
-    this.jwtToPrincipalConverter = jwtToPrincipalConverter;
-    this.handlerExceptionResolver = handlerExceptionResolver;
-  }
-
   @Override
   protected void doFilterInternal(
-      HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+          @NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
       throws ServletException, IOException {
     try {
       extractTokenFromRequest(request)
           .map(jwtDecoder::decode)
           .map(jwtToPrincipalConverter::convert)
-          .map(UserPrincipleAuthenticationToken::new)
+          .map(UserPrincipalAuthenticationToken::new)
           .ifPresent(
               authentication ->
                   SecurityContextHolder.getContext().setAuthentication(authentication));

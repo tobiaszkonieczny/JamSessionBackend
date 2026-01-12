@@ -1,5 +1,6 @@
 package com.uni.jamsession.repositories;
 
+import com.uni.jamsession.model.InstrumentAndRating;
 import com.uni.jamsession.model.JamSession;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ public interface JamSessionRepository extends JpaRepository<JamSession, Integer>
 
     public Set<JamSession> findByConfirmedInstruments_User(User user);
 
+    boolean existsByConfirmedInstrumentsContains(InstrumentAndRating instrumentAndRating);
   public JamSession save(JamSession session);
 
   public Optional<JamSession> findById(int id);

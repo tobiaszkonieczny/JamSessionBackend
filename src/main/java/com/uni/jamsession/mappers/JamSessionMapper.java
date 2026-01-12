@@ -11,6 +11,6 @@ import org.mapstruct.Mapping;
 })
 public interface JamSessionMapper {
 
-  @Mapping(source = "owner", target = "ownerDto")
+  @Mapping(target = "owner", source = "owner")
   JamSessionDto jamSessionToJamSessionDto(JamSession jamSession);
 }

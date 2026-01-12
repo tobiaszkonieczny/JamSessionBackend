@@ -1,5 +1,7 @@
 package com.uni.jamsession.dtos.user;
 
+import com.uni.jamsession.dtos.MusicGenreDto;
+import com.uni.jamsession.dtos.instrumentandrating.InstrumentAndRatingDto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
@@ -13,6 +15,10 @@ public record UserEditDto(
         String bio,
 
         Integer profilePictureId,
+
+        Set<MusicGenreDto> favoriteGenres,
+
+        Set<InstrumentAndRatingDto> instrumentsAndRatings,
 
         Set<@Min(value = 1, message = "Genre ID must be positive") Integer> favouriteGenreIds
 ) {

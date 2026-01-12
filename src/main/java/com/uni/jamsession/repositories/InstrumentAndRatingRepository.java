@@ -27,4 +27,6 @@ public interface InstrumentAndRatingRepository extends JpaRepository<InstrumentA
       "SELECT ir FROM InstrumentAndRating ir WHERE ir.instrument.id IN :instrumentId AND ir.user.id = :userId")
   List<InstrumentAndRating> findByUserIdAndInstrumentId(
       @Param("instrumentId") List<Integer> instrumentId, @Param("userId") Integer userId);
+
+  void removeById(int id);
 }
