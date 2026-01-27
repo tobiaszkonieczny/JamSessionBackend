@@ -41,6 +41,9 @@ public class InstrumentAndRatingService {
         int userId = authService.getUserPrincipal().getUserId();
         InstrumentAndRating existing = instrumentAndRatingRepository.findById(instrumentAndRatingId).orElseThrow(
                 () -> new IllegalStateException("InstrumentAndRating with id " + instrumentAndRatingId + " does not exist"));
+        if(existing.getUser().getId() != userId){
+            throw new UnauthorizedException("You are not authorized to delete this InstrumentAndRating");
+        }
         if(jamSessionRepository.existsByConfirmedInstrumentsContains(existing)){
             throw new IllegalAccessException("Cannot delete InstrumentAndRating that is part of confirmed JamSessions");
         }

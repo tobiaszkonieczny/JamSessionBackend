@@ -83,12 +83,6 @@ public class JamSessionController {
         return ResponseEntity.ok(messageFacade.getCommentsForJamSession(jamSessionId));
     }
 
-    @DeleteMapping("/comments/{jamSessionId}/{messageId}")
-    public ResponseEntity<?> deleteCommentFromJamSession(@PathVariable int messageId) throws UnauthorizedException{
-        jamSessionFacade.deleteCommentFromJamSession(messageId);
-        return ResponseEntity.ok("Comment deleted successfully.");
-    }
-
     @PostMapping("/comments/{jamSessionId}")
     public ResponseEntity<MessageDto> addComment(
             @PathVariable int jamSessionId,
@@ -97,6 +91,16 @@ public class JamSessionController {
             @RequestParam(required = false) Integer parentId
     ) {
       return ResponseEntity.ok(jamSessionFacade.addCommentToJamSession(jamSessionId, data, image, parentId));
+    }
+
+    @DeleteMapping("/comments/{jamSessionId}/{messageId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteComment(
+            @PathVariable int jamSessionId,
+            @PathVariable int messageId
+    ) throws UnauthorizedException {
+      jamSessionFacade.deleteCommentFromJamSession(messageId);
+      return ResponseEntity.ok("Comment deleted successfully.");
     }
 
     @PostMapping("/comments/{messageId}/react")

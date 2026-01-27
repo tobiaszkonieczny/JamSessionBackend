@@ -9,6 +9,7 @@ import com.uni.jamsession.repositories.InstrumentAndRatingRepository;
 import com.uni.jamsession.repositories.InstrumentRepository;
 import com.uni.jamsession.services.InstrumentAndRatingService;
 import com.uni.jamsession.services.UserService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,8 @@ public class InstrumentAndRatingFacade {
                 instrumentAndRatingService.addOrUpdateInstrumentAndRating(user, instrument, instrumentAndRatingDto.rating())
         );
     }
+
+    @Transactional
     public Set<InstrumentAndRatingDto> addNewInstrumentAndRatingBatch(Set<CreateInstrumentAndRatingDto> instrumentAndRatingDtos) {
         User user = userService.getCurrentUser();
         Set<InstrumentAndRatingDto> instrumentAndRatings = new HashSet<>();

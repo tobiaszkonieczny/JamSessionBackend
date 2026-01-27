@@ -64,19 +64,14 @@ public class WebSecurityConfig {
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
 
-    // Pozwól na żądania z Twojego frontendu (np. Angular/React)
     configuration.setAllowedOrigins(List.of("http://localhost:4200"));
 
-    // Pozwól na wszystkie standardowe metody HTTP
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
 
-    // Pozwól na niezbędne nagłówki
     configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
 
-    // Pozwól na przesyłanie poświadczeń (cookies, nagłówki Auth)
     configuration.setAllowCredentials(true);
 
-    // Jak długo przeglądarka ma cache'ować to ustawienie (3600s = 1h)
     configuration.setMaxAge(3600L);
 
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
